@@ -1,7 +1,7 @@
 Fadecandy Bootloader for MK20DX256
 ====================
 
-This is a simple open source bootloader for the Freescale Kinetis MK20DX128 microcontroller. It uses the USB Device Firmware Upgrade (DFU) standard. This bootloader was developed for use with Fadecandy, but it should be portable with to other projects using chips in the Kinetis microcontroller family.
+This is a simple open source bootloader for the Freescale Kinetis MK20DX256 microcontroller. It uses the USB Device Firmware Upgrade (DFU) standard. This bootloader was developed for use with Fadecandy, but it should be portable with to other projects using chips in the Kinetis microcontroller family.
 
 Installing
 ----------
