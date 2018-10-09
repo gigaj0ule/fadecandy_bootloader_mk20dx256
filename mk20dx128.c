@@ -684,8 +684,6 @@ const uint8_t flashconfigbytes[16] = {
 extern void *__rtc_localtime; // Arduino build process sets this
 // extern void rtc_set(unsigned long t);
 
-
-
 static void startup_default_early_hook(void) {
 #if defined(KINETISK)
 	WDOG_STCTRLH = WDOG_STCTRLH_ALLOWUPDATE;
@@ -696,7 +694,6 @@ static void startup_default_early_hook(void) {
 static void startup_default_late_hook(void) {}
 void startup_early_hook(void)		__attribute__ ((weak, alias("startup_default_early_hook")));
 void startup_late_hook(void)		__attribute__ ((weak, alias("startup_default_late_hook")));
-
 
 #if defined(__PURE_CODE__) || !defined(__OPTIMIZE__) || defined(__clang__)
 // cases known to compile too large for 0-0x400 memory region
@@ -1220,7 +1217,7 @@ while ((MCG_S & MCG_S_CLKST_MASK) != MCG_S_CLKST(2)) ;
 
 //	__libc_init_array();
 
-	startup_late_hook();
+//	startup_late_hook();
 	main();
 	while (1) ;
 }

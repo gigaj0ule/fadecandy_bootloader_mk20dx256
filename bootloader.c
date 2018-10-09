@@ -27,7 +27,7 @@
 #include "kinetis.h"
 
 extern uint32_t boot_token;
-static __attribute__ ((section(".appvectors"))) uint32_t appVectors[64];
+static __attribute__ ((section(".appvectors"))) uint32_t appVectors[128];
 const uint32_t led_bit = 1 << 5;
 
 static void led_init()
@@ -62,7 +62,7 @@ static bool test_app_missing()
      */
 
     uint32_t entry = appVectors[1];
-    return entry < 0x00004000 || entry >= 248 * 1024;
+    return (entry < 0x00004000) || (entry >= (256 * 1024));
 }
 
 static bool test_banner_echo()
@@ -130,18 +130,23 @@ int main()
         dfu_init();
         usb_init();
 
-        // Wait for firmware download
+        // Flash LED slowly to let user know we're ready for DFU download
         while (dfu_getstate() != dfuMANIFEST) {
-            watchdog_refresh();
+            led_toggle();
+            for (j = 1000000; j; --j) {
+	            watchdog_refresh();
+            }
         }
+
+		// Todo: Some different LED pattern for DFU download in progress...
 
         // Clear boot token, to enter the new application
         boot_token = 0;
 
-        // Wait a little bit longer, while flashing the LED.
-        for (i = 11; i; --i) {
+        // Wait a little bit longer, flash the LED quickly to let user know DFU download complete
+        for (i = 30; i; --i) {
             led_toggle();
-            for (j = 1000000; j; --j) {
+            for (j = 100000; j; --j) {
                 watchdog_refresh();
             }
         }
@@ -154,5 +159,5 @@ int main()
     }
 
     app_launch();
-     return 0;
+    return 0;
 }
